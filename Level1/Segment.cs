@@ -16,6 +16,12 @@ namespace Level1
             WaitingCars = new List<Car>();
         }
 
+        public Segment(Segment seg)
+        {
+            CurrentCar = seg.CurrentCar;
+            WaitingCars = seg.WaitingCars;
+        }
+
         public bool HasCar { get { return CurrentCar != null; } }
 
         public void Add(Car car)
@@ -25,20 +31,18 @@ namespace Level1
 
         public void NextCar(bool nextOccupied)
         {
-            if (nextOccupied || HasCar)
-            {
-                for (int i = 0; i < WaitingCars.Count; i++)
-                {
-                    WaitingCars[i].Drive();
-                }
-            }
-            else
+            if (!nextOccupied && !HasCar)
             {
                 if (WaitingCars.Count > 0)
                 {
                     CurrentCar = WaitingCars.First();
                     WaitingCars.RemoveAt(0);
                 }
+            }
+
+            for (int i = 0; i < WaitingCars.Count; i++)
+            {
+                WaitingCars[i].Drive();
             }
         }
     }

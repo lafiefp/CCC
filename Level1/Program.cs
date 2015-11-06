@@ -7,7 +7,7 @@ namespace Level1
 {
     class Program
     {
-        const int NoInputFiles = 1;
+        const int NoInputFiles = 6;
         const string FileName = "input/level1_{0}.in";
         const string OutFile = "level1_{0}.out";
 

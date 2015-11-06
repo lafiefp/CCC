@@ -36,12 +36,20 @@ namespace Level1
 
         public void Simulate()
         {
+            var NextSegments = Segments.ConvertAll(seg => new Segment(seg));
+
             // shift segments
             for (int i = Segments.Count - 1; i > 0; i--)
             {
-                Segments[i].CurrentCar = Segments[i - 1].CurrentCar;
+                if (Segments[i].CurrentCar == null)
+                {
+                    NextSegments[i].CurrentCar = Segments[i - 1].CurrentCar;
+                    NextSegments[i - 1].CurrentCar = null;
+                }
+                // Segments[i].CurrentCar = Segments[i - 1].CurrentCar;
             }
-            Segments[0].CurrentCar = null;
+
+            Segments = NextSegments;
 
             // handle waiting cars
             for (int i = 0; i < Segments.Count - 1; i++)
@@ -51,7 +59,7 @@ namespace Level1
             }
             Segments[Segments.Count - 1].NextCar(false);
 
-            PrintRaod();
+            // PrintRaod();
 
             // drive cars
             for (int i = 0; i < Segments.Count; i++)

@@ -30,7 +30,7 @@ namespace Level1
         {
             start = startpoint;
             end = endpoint;
-            elapsedTime = 0;
+            elapsedTime = 1;
         }
 
         public void Drive()
