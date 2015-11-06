@@ -14,6 +14,7 @@ namespace Level1
         static void Main(string[] args)
         {
             var globalfile = new StreamWriter("abgabe2.txt");
+            File.Delete(@"C:\Temp\out.txt");
 
             for (int i = 3; i <= NoInputFiles; i++)
             {
