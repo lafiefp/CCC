@@ -20,8 +20,8 @@ namespace Level1
             for(var i = 2; i < lines.Length; i++)
             {
                 var parts = lines[i].Split(',');
-                if (parts.Length > 1)
-                    cars.Add(new Car(int.Parse(parts[0]), int.Parse(parts[1])));
+                if (parts.Length > 2)
+                    cars.Add(new Car(int.Parse(parts[0]), int.Parse(parts[1]), int.Parse(parts[2])));
             }
 
             return numberOfSegments;

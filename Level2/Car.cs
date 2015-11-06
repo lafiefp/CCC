@@ -26,10 +26,18 @@ namespace Level1
         }
 
 
-        public Car(int startpoint, int endpoint)
+        private int starttime;
+        public int StartTime
+        {
+            get { return starttime; }
+        }
+
+
+        public Car(int startpoint, int endpoint, int startingtime)
         {
             start = startpoint;
             end = endpoint;
+            starttime = startingtime;
             elapsedTime = 1;
         }
 
