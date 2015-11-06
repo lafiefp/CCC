@@ -18,11 +18,10 @@ namespace Level1
         {
             get { return end; }
         }
-
-        private int elapsedTime;
+        
         public int ElapsedTime
         {
-            get { return elapsedTime; }
+            get; set;
         }
 
 
@@ -32,18 +31,19 @@ namespace Level1
             get { return starttime; }
         }
 
+        public int ArrivalTime { get; internal set; }
 
         public Car(int startpoint, int endpoint, int startingtime)
         {
             start = startpoint;
             end = endpoint;
             starttime = startingtime;
-            elapsedTime = 1;
+            ElapsedTime = 1;
         }
 
         public void Drive()
         {
-            elapsedTime++;
+            ElapsedTime++;
         }
     }
 }

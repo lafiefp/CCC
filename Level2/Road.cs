@@ -9,12 +9,13 @@ namespace Level1
 {
     class Road
     {
-        // public int CurrentTime;
+        public int CurrentTime;
         public List<Segment> Segments;
         private int _carCount;
 
         public Road(int NoSegments)
         {
+            CurrentTime = 1;
             Segments = new List<Segment>(NoSegments);
             for (int i = 0; i < NoSegments; i++)
             {
@@ -23,6 +24,8 @@ namespace Level1
         }
 
         public bool HasCars { get { return _carCount > 0; } }
+
+        public int JamCounter { get; private set; }
 
         public void InitCar(Car car)
         {
@@ -46,6 +49,11 @@ namespace Level1
                     NextSegments[i].CurrentCar = Segments[i - 1].CurrentCar;
                     NextSegments[i - 1].CurrentCar = null;
                 }
+
+                if (Segments[i].CurrentCar != null && Segments[i-1].CurrentCar != null)
+                {
+                    JamCounter++;
+                }
                 // Segments[i].CurrentCar = Segments[i - 1].CurrentCar;
             }
 
@@ -55,11 +63,11 @@ namespace Level1
             for (int i = 0; i < Segments.Count - 1; i++)
             {
                 var seg = Segments[i];
-                seg.NextCar(Segments[i + 1].HasCar);
+                seg.NextCar(CurrentTime, Segments[i + 1].HasCar);
             }
-            Segments[Segments.Count - 1].NextCar(false);
+            Segments[Segments.Count - 1].NextCar(CurrentTime, false);
 
-            // PrintRaod();
+            PrintRaod();
 
             // drive cars
             for (int i = 0; i < Segments.Count; i++)
@@ -70,11 +78,14 @@ namespace Level1
 
                     if (Segments[i].CurrentCar.End == (i + 1))
                     {
+                        Segments[i].CurrentCar.ArrivalTime = CurrentTime;
                         Segments[i].CurrentCar = null;
                         _carCount--;
                     }
                 }
             }
+
+            CurrentTime++;
         }
 
         private void PrintRaod()
