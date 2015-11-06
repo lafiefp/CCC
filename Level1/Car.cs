@@ -11,31 +11,31 @@ namespace Level1
         private int start;
         public int Start
         {
-            get { return this.start; }
+            get { return start; }
         }
         private int end;
         public int End
         {
-            get { return this.start; }
+            get { return end; }
         }
 
         private int elapsedTime;
         public int ElapsedTime
         {
-            get { return this.elapsedTime; }
+            get { return elapsedTime; }
         }
 
 
         public Car(int startpoint, int endpoint)
         {
-            this.start = startpoint;
-            this.end = endpoint;
-            this.elapsedTime = 0;
+            start = startpoint;
+            end = endpoint;
+            elapsedTime = 0;
         }
 
         public void Drive()
         {
-            this.elapsedTime++;
+            elapsedTime++;
         }
     }
 }

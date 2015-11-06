@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ namespace Level1
 {
     class Road
     {
+        // public int CurrentTime;
         public List<Segment> Segments;
+        private int _carCount;
 
         public Road(int NoSegments)
         {
@@ -19,14 +22,62 @@ namespace Level1
             }
         }
 
+        public bool HasCars { get { return _carCount > 0; } }
+
         public void InitCar(Car car)
         {
-            Segments[car.Start].Add(car);
+            if ((car.End - 1) >= Segments.Count)
+            {
+                throw new Exception("");
+            }
+            Segments[car.Start - 1].Add(car);
+            _carCount++;
         }
 
-        internal void Simulate()
+        public void Simulate()
         {
-            // TODO: implement logic!!!
+            // shift segments
+            for (int i = Segments.Count - 1; i > 0; i--)
+            {
+                Segments[i].CurrentCar = Segments[i - 1].CurrentCar;
+            }
+            Segments[0].CurrentCar = null;
+
+            // handle waiting cars
+            for (int i = 0; i < Segments.Count - 1; i++)
+            {
+                var seg = Segments[i];
+                seg.NextCar(Segments[i + 1].HasCar);
+            }
+            Segments[Segments.Count - 1].NextCar(false);
+
+            PrintRaod();
+
+            // drive cars
+            for (int i = 0; i < Segments.Count; i++)
+            {
+                if (Segments[i].CurrentCar != null)
+                {
+                    Segments[i].CurrentCar.Drive();
+
+                    if (Segments[i].CurrentCar.End == (i + 1))
+                    {
+                        Segments[i].CurrentCar = null;
+                        _carCount--;
+                    }
+                }
+            }
+        }
+
+        private void PrintRaod()
+        {
+            StreamWriter fw = new StreamWriter("C:\\Temp\\out.txt", true);
+            foreach (var s in Segments)
+            {
+                fw.Write(string.Format(s.CurrentCar == null ? "0" : "1"));
+            }
+            fw.WriteLine();
+            fw.Close();
         }
     }
 }

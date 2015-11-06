@@ -17,7 +17,6 @@ namespace Level1
             numberOfSegments = int.Parse(lines[0]);
             var numberOfCars = int.Parse(lines[1]);
             
-
             for(var i = 2; i < lines.Length; i++)
             {
                 var parts = lines[i].Split(',');

@@ -8,22 +8,38 @@ namespace Level1
 {
     class Segment
     {
-        Car CurrentCar;
-        List<Car> WaitingCars;
+        public Car CurrentCar;
+        public List<Car> WaitingCars;
 
         public Segment()
         {
             WaitingCars = new List<Car>();
         }
 
+        public bool HasCar { get { return CurrentCar != null; } }
+
         public void Add(Car car)
         {
-            if (CurrentCar == null)
-            {
-                CurrentCar = car;
-            }
-
             WaitingCars.Add(car);
+        }
+
+        public void NextCar(bool nextOccupied)
+        {
+            if (nextOccupied || HasCar)
+            {
+                for (int i = 0; i < WaitingCars.Count; i++)
+                {
+                    WaitingCars[i].Drive();
+                }
+            }
+            else
+            {
+                if (WaitingCars.Count > 0)
+                {
+                    CurrentCar = WaitingCars.First();
+                    WaitingCars.RemoveAt(0);
+                }
+            }
         }
     }
 }
