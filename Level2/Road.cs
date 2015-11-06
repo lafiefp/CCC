@@ -59,13 +59,36 @@ namespace Level1
 
             Segments = NextSegments;
 
-            // handle waiting cars
-            for (int i = 0; i < Segments.Count - 1; i++)
+            var order = new Dictionary<int, int>();
+            for (int i = 0; i < Segments.Count; i++)
             {
-                var seg = Segments[i];
-                seg.NextCar(CurrentTime, Segments[i + 1].HasCar);
+                if (Segments[i].WaitingCars.Count > 0)
+                    order.Add(Segments[i].WaitingCars.First().StartTime, i);
+                else
+                    order.Add(int.MaxValue, i);
             }
-            Segments[Segments.Count - 1].NextCar(CurrentTime, false);
+            order.OrderBy(x => x.Key);
+
+            foreach(var idx in order.Values)
+            {
+                var seg = Segments[idx];
+                if (idx < Segments.Count - 1)
+                {
+                    seg.NextCar(CurrentTime, Segments[idx + 1].HasCar);
+                }
+                else
+                {
+                    seg.NextCar(CurrentTime, false);
+                }
+            }
+
+            // handle waiting cars
+            // for (int i = 0; i < Segments.Count - 1; i++)
+            // {
+            //     var seg = Segments[i];
+            //     seg.NextCar(CurrentTime, Segments[i + 1].HasCar);
+            // }
+            // Segments[Segments.Count - 1].NextCar(CurrentTime, false);
 
             PrintRaod();
 
