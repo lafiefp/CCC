@@ -114,10 +114,34 @@ namespace Level1
         private void PrintRaod()
         {
             StreamWriter fw = new StreamWriter("C:\\Temp\\out.txt", true);
+
+            foreach (var s in Segments)
+            {
+                //if (s.CurrentCar != null && s.CurrentCar.StartTime == CurrentTime)
+                //    fw.Write("i");
+                //else
+                //{
+                //    if (s.WaitingCars.Count > 0)
+                //    {
+                //        if (s.WaitingCars.First().StartTime < CurrentTime)
+                //            fw.Write("w");
+                //        else
+                //            fw.Write("o");
+                //    }
+                //    else
+                //        fw.Write(" ");
+                //}
+                if (s.WaitingCars.Count > 0 && s.WaitingCars.First().StartTime < CurrentTime)
+                    fw.Write(s.WaitingCars.Count);
+                else
+                    fw.Write(" ");
+            }
+            fw.WriteLine();
             foreach (var s in Segments)
             {
                 fw.Write(string.Format(s.CurrentCar == null ? "0" : "1"));
             }
+            fw.WriteLine();
             fw.WriteLine();
             fw.Close();
         }
