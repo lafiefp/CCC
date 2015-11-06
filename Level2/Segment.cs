@@ -22,27 +22,37 @@ namespace Level1
             WaitingCars = seg.WaitingCars;
         }
 
+        public static int CantEnter { get; set; }
+
         public bool HasCar { get { return CurrentCar != null; } }
 
         public void Add(Car car)
         {
             WaitingCars.Add(car);
+            WaitingCars.OrderBy(x => x.StartTime);
         }
 
-        public void NextCar(bool nextOccupied)
+        public void NextCar(int currentTime, bool nextOccupied)
         {
             if (!nextOccupied && !HasCar)
             {
                 if (WaitingCars.Count > 0)
                 {
-                    CurrentCar = WaitingCars.First();
-                    WaitingCars.RemoveAt(0);
+                    if (WaitingCars.First().StartTime < currentTime)
+                    {
+                        CurrentCar = WaitingCars.First();
+                        WaitingCars.RemoveAt(0);
+                    }
                 }
             }
-
-            for (int i = 0; i < WaitingCars.Count; i++)
+            else if (WaitingCars.Count > 0 && WaitingCars.First().StartTime < currentTime)
             {
-                WaitingCars[i].Drive();
+                CantEnter++;
+            }
+
+            foreach(var c in WaitingCars.Where(x => x.StartTime < currentTime))
+            {
+                c.Drive();
             }
         }
     }
